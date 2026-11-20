@@ -66,4 +66,68 @@
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:10;display:flex;align-items:center;gap:16px;background:#17352d;color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;box-shadow:0 10px 30px #0004;max-width:calc(100vw - 28px)}
 .toast[hidden]{display:none}
 .toast button{border:0;background:transparent;color:#9fe3c4;font-weight:700;font-size:14px;min-height:36px;padding:0 6px}
+
+/* Fix: the inline `#auth-form label{display:flex}` rule in index.html overrides the hidden attribute,
+   so "Your name" and "Enter password again" showed on the Sign in tab. */
 #auth-form [hidden]{display:none!important}
+
+/* ================= RESPONSIVE ================= */
+
+/* Dialogs: remove the browser's default dialog border/padding/scrollbar (the black frame) */
+dialog:not(.sheet){border:0;padding:0;background:transparent;overflow:visible;max-width:none;max-height:none}
+.dialog-card{max-height:min(90vh,760px);max-height:min(90dvh,760px)}
+.sheet{max-height:90vh;overflow:auto}
+
+/* Keep long text from breaking layouts */
+.item-name,.item-details,.row-card strong{overflow-wrap:anywhere}
+main,.page{min-width:0}
+img,svg{max-width:100%}
+
+/* Phones */
+@media(max-width:600px){
+  main{padding:14px 12px}
+  .topbar{padding:0 12px}
+  input,select,textarea{font-size:16px!important} /* stops iOS zooming on focus */
+  .action-row{gap:8px}
+  .action-row .button{font-size:12px;padding:11px 6px}
+  .group-banner{flex-direction:column;align-items:stretch}
+  .group-banner .button{width:100%}
+  .inline-form{flex-direction:column}
+  .inline-form .button{width:100%}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full,.span-two{grid-column:auto}
+  .dialog-card{width:calc(100vw - 20px);padding:18px}
+  .dialog-actions{flex-direction:column-reverse}
+  .dialog-actions .button{width:100%}
+  .row-card{flex-wrap:wrap}
+  .g-item{gap:10px;padding-left:12px}
+  .g-item .item-price{font-size:13px;max-width:96px}
+  .total-bar{bottom:calc(78px + env(safe-area-inset-bottom,0px));padding:12px 14px}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+  .landing-hero{padding:26px 16px 22px}
+}
+@media(max-width:360px){
+  .brand small{display:none}
+  .g-item .item-name{font-size:15px}
+  .usual-chip{padding:7px 10px}
+}
+
+/* Tablets and laptops: wider content */
+@media(min-width:700px){
+  main{max-width:900px}
+  .page:not(#page-home):not(#page-welcome){max-width:720px;margin-left:auto;margin-right:auto}
+}
+
+/* Desktops: list on the left, totals stay in view on the right */
+@media(min-width:960px){
+  .topbar{padding:0 max(calc((100vw - 1100px)/2),22px)}
+  main{max-width:1100px;padding-top:28px}
+  #page-home.active{display:grid;grid-template-columns:minmax(0,1fr) 330px;column-gap:32px;align-items:start}
+  #page-home>*{grid-column:1}
+  #page-home>.total-card{grid-column:2;grid-row:1 / span 30;position:sticky;top:96px;margin-top:0}
+  #page-home>.total-bar{display:none}   /* the side card replaces the bottom bar */
+  .search-wrap{top:72px}
+  body{padding-bottom:110px}
+  .bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:min(480px,calc(100% - 24px));bottom:14px;height:66px;padding:4px 10px;border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 30px #16382b1f}
+  .toast{bottom:100px}
+}
