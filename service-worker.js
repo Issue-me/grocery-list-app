@@ -1,4 +1,4 @@
-const CACHE='fiji-grocery-v19';
+const CACHE='fiji-grocery-v20';
 const SUPABASE_SDK='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.1';
 const FILES=['./','./index.html','./styles.css','./app.js','./supabase.js','./manifest.webmanifest','./icon.svg','./ux.css','./ux.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(async cache=>{await cache.addAll(FILES);try{const response=await fetch(SUPABASE_SDK,{mode:'cors'});if(response.ok)await cache.put(SUPABASE_SDK,response)}catch{}})));

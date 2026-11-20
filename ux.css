@@ -140,3 +140,102 @@ img,svg{max-width:100%}
 
 /* Auth dialog on small screens: never wider than the screen */
 #auth-dialog .dialog-card,#password-reset-dialog .dialog-card{width:min(440px,calc(100vw - 24px));margin:0 auto}
+
+/* ================= PHONE-FRIENDLY EXTRAS ================= */
+html{-webkit-text-size-adjust:100%}
+button,a,input,select,label{touch-action:manipulation}
+body{overscroll-behavior-y:none}
+
+/* Bottom menu: current tab is obvious */
+.bottom-nav{gap:2px;padding-top:4px;padding-bottom:max(4px,env(safe-area-inset-bottom))}
+.nav-link{margin:2px 0;border-radius:14px;font-size:11px;font-weight:600;transition:background .15s,color .15s}
+.nav-link span{font-size:21px}
+.nav-link.selected{background:var(--mint);color:var(--deep);font-weight:800}
+.back-link{display:block;margin:0 0 6px -7px;font-size:14px}
+
+/* Simpler list screen */
+.list-heading{flex-wrap:wrap;gap:8px}
+.list-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.list-actions .button{min-height:36px;padding:6px 11px;font-size:12px}
+.list-actions .text-button{min-height:36px}
+.add-details-link{font-size:13px}
+#page-home>.total-card{display:none}
+.total-bar{cursor:pointer;position:sticky}
+.total-bar::before{content:'';position:absolute;top:5px;left:50%;width:34px;height:4px;border-radius:4px;background:#ffffff55;transform:translateX(-50%)}
+@media(min-width:960px){#page-home>.total-card{display:block}.total-bar{display:none}}
+.sheet-row{display:flex;justify-content:space-between;align-items:center;min-height:46px;border-bottom:1px solid var(--line);font-size:15px}
+.sheet-row.big strong{font:800 20px Manrope,sans-serif;color:var(--green)}
+
+/* PIN lock screen */
+#lock-screen{position:fixed;inset:0;z-index:100;background:#f5f7f2;display:flex;align-items:center;justify-content:center;overflow:auto}
+#lock-screen[hidden]{display:none}
+.locked body{overflow:hidden}
+.lock-in{position:relative;width:min(340px,100%);padding:24px 20px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.lock-in .landing-mark{margin-bottom:14px;width:56px;height:56px;font-size:28px}
+.lock-in h2{font:800 20px Manrope,sans-serif;margin:0}
+#lock-msg{min-height:20px;margin:6px 0 10px;color:#ae382c;font-size:13px}
+.lock-dots{display:flex;gap:16px;margin-bottom:24px}
+.lock-dots i{width:15px;height:15px;border-radius:50%;border:2px solid var(--green);transition:background .1s}
+.lock-dots i.on{background:var(--green)}
+.lock-dots.shake{animation:lockshake .4s}
+@keyframes lockshake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.lock-pad{display:grid;grid-template-columns:repeat(3,76px);gap:14px 20px;justify-content:center;margin-bottom:20px}
+.lock-pad button{width:76px;height:76px;border-radius:50%;border:1.5px solid var(--green);background:transparent;color:var(--green);font:500 28px 'DM Sans',sans-serif}
+.lock-pad button:active{background:var(--green);color:#fff}
+.lock-pad button.ghost{border-color:transparent;font-size:24px}
+.lock-pad button.ghost:active{background:var(--mint);color:var(--green)}
+.lock-cancel{position:absolute;top:0;right:4px;width:44px;height:44px;border:0;border-radius:50%;background:#e9eee8;font-size:24px;color:#65766b}
+#lock-bio{margin-bottom:6px}
+@media(max-height:640px){.lock-pad{gap:8px 16px;grid-template-columns:repeat(3,64px)}.lock-pad button{width:64px;height:64px;font-size:24px}.lock-dots{margin-bottom:14px}}
+.panel .button.full+.button.full{margin-top:8px}
+#leave-group{margin-top:10px}
+
+/* ================= 6-TAB MENU + TOP ACTIONS ================= */
+.top-actions{display:flex;gap:8px;align-items:center}
+.top-actions .icon-button[hidden]{display:none}
+@media(max-width:420px){.nav-link{font-size:10px}.nav-link span{font-size:19px}.bottom-nav{padding-left:4px;padding-right:4px}}
+.seg{display:flex;gap:6px;background:#f1f5f0;border-radius:12px;padding:4px}
+.seg button{flex:1;border:0;background:transparent;border-radius:9px;min-height:44px;font-weight:700;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--green);box-shadow:0 1px 4px #16382b12}
+
+/* ================= DARK MODE ================= */
+:root[data-theme=dark]{color-scheme:dark;color:#e6efe9;background:#0f1713;--text:#e6efe9;--muted:#9fb0a6;--line:#2a3a33;--mint:#1f3a2f;--green:#5cc9a1;--deep:#bff0dc;--white:#17211c}
+[data-theme=dark] body{background:#0f1713}
+/* surfaces */
+[data-theme=dark] :is(.topbar,.bottom-nav,.panel,.g-item,.grocery-item,.total-card,.search-wrap,.empty-state,.usual-chip,.landing-feature,.suggestions,.suggestion,.icon-button,.secondary,.dialog-card,.sheet,.sheet-btn,.auth-tab.active,.seg button.on){background:#17211c;border-color:#2a3a33;color:#e6efe9}
+[data-theme=dark] :is(.field,.form-grid input,.form-grid select,.form-grid textarea,.dialog-card input,.dialog-card select,.inline-form input,#auth-form label input,.mini-select,.sheet-move select){background:#101915;border-color:#2f423a;color:#e6efe9}
+[data-theme=dark] .search-wrap input{background:transparent;color:#e6efe9}
+[data-theme=dark] ::placeholder{color:#7f9288}
+/* tinted surfaces */
+[data-theme=dark] :is(.landing-hero,.group-banner,.all-done,.invite-box,.budget-line,.count,.auth-switch,.close-button,.pw-toggle,.mini-button,.lock-cancel,.seg){background:#1d2e26;border-color:#2a3a33;color:#e6efe9}
+[data-theme=dark] .progress-bar{background:#26362e}
+[data-theme=dark] .landing-copy,[data-theme=dark] .aisle-title,[data-theme=dark] .item-details,[data-theme=dark] .estimate-note{color:#9fb0a6}
+[data-theme=dark] .landing-feature>span{background:#1f3a2f}
+/* green buttons keep white text */
+[data-theme=dark] :is(.primary,.add-button,.brand-icon,.landing-mark){background:#1f8a64;color:#fff;border-color:transparent}
+[data-theme=dark] .primary:hover{background:#27a077}
+[data-theme=dark] .check-box{border-color:#4a5f55}
+[data-theme=dark] .check-box:checked{background:#1f8a64;border-color:#1f8a64}
+[data-theme=dark] .progress-bar i{background:#3fb68b}
+[data-theme=dark] .total-bar{background:#1f6f54;color:#fff}
+[data-theme=dark] .nav-link{color:#8ea298}
+[data-theme=dark] .nav-link.selected{background:#1f3a2f;color:#bff0dc}
+[data-theme=dark] .seg button{background:transparent;color:#9fb0a6}
+[data-theme=dark] .seg button.on{background:#17211c;color:#5cc9a1}
+[data-theme=dark] .usual-chip.editing{background:#3a1d1a;border-color:#5a2a25;color:#ffb4aa}
+/* red / amber */
+[data-theme=dark] :is(.danger,.delete-mini,.form-error){background:#3a1d1a;border-color:#5a2a25;color:#ffb4aa}
+[data-theme=dark] .sheet-btn.danger-text{color:#ffb4aa}
+[data-theme=dark] .expiry{background:#3a2d12;color:#f0c274}
+[data-theme=dark] .expiry.bad{background:#3a1d1a;color:#ffb4aa}
+[data-theme=dark] .expiry.good{background:#1f3a2f;color:#8fe0bd}
+[data-theme=dark] .old-price{color:#7f9288}
+[data-theme=dark] .is-bought .item-name{color:#7f9288}
+[data-theme=dark] .g-item:active{background:#1d2e26}
+[data-theme=dark] .suggestion:hover,[data-theme=dark] .more-btn:hover{background:#1d2e26}
+[data-theme=dark] .more-btn{color:#9fb0a6}
+/* lock screen, toast, dialogs */
+[data-theme=dark] #lock-screen{background:#0f1713}
+[data-theme=dark] .toast{background:#e6efe9;color:#0f1713}
+[data-theme=dark] .toast button{color:#1f6f54}
+[data-theme=dark] dialog::backdrop{background:#000a}
