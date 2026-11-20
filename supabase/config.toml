@@ -1,2 +1,7 @@
+[auth]
+# Keep access tokens valid for two hours. Push this config to the hosted project
+# with `supabase config push` for the setting to take effect in production.
+jwt_expiry = 7200
+
 [functions.delete-account]
 verify_jwt = true

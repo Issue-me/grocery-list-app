@@ -281,11 +281,14 @@ lockEl.querySelector('#lock-forgot').onclick=async()=>{
 const lp=document.createElement('div');lp.className='panel';lp.id='lock-panel';
 document.querySelector('#page-settings .page-head').insertAdjacentElement('afterend',lp);
 function renderLockPanel(){
+  lp.hidden=!signedInUser;
+  if(!signedInUser){lp.innerHTML='<h2>App lock</h2><p class="subtle">Sign in first to set up a PIN or fingerprint for this device.</p>';return}
   const on=!!getLock(),bio=!!localStorage.getItem(BK);
   lp.innerHTML=`<h2>App lock</h2><p class="subtle">${on?'A PIN is needed to open the app on this device.':'Add a PIN so only you can open your list on this phone.'}</p>`+
   (on?`<button class="button secondary full" data-lock="change">Change PIN</button><button class="button secondary full" data-lock="bio">${bio?'Turn off fingerprint':'Use fingerprint to unlock'}</button><button class="button danger full" data-lock="off">Turn off PIN</button>`
      :`<button class="button primary full" data-lock="set">Set a PIN</button>`);
 }
+window.renderLockPanel=renderLockPanel;
 lp.addEventListener('click',async e=>{
   const a=e.target.closest('[data-lock]')?.dataset.lock;if(!a)return;
   if(a==='set')setPinFlow();
@@ -299,7 +302,9 @@ document.addEventListener('visibilitychange',()=>{
   else if(getLock()&&hiddenAt&&Date.now()-hiddenAt>30000&&lockEl.hidden)showUnlock();
 });
 renderLockPanel();
-if(getLock())showUnlock();
+// Keep the saved Supabase session across refreshes, but require local unlock
+// before showing the app when this browser already has a signed-in session.
+if(getLock()&&storedSession()?.user)showUnlock();
 
 /* ---------- Dark mode ---------- */
 const THEME_KEY='fiji-theme',mq=matchMedia('(prefers-color-scheme: dark)');
