@@ -1,0 +1,69 @@
+/* ux.css - load AFTER styles.css. Makes the list screen faster to use. */
+.welcome{display:none}
+.action-row{margin:12px 0}
+.action-row .button{flex:1;min-height:44px}
+
+/* Add bar stays visible while scrolling the list */
+.search-wrap{position:sticky;top:72px;z-index:3;padding:6px 8px 6px 15px;border-radius:16px;box-shadow:0 6px 18px #16382b14}
+.search-wrap input{font-size:16px}
+.add-button{width:46px;height:46px;border-radius:13px}
+@media(max-width:480px){.search-wrap{top:64px}}
+
+/* Usual items */
+.usual-chip{min-height:40px;padding:8px 14px;font-size:13px}
+.usual-chip.editing{border-color:#f3d5d1;background:#fff0ee;color:#ae382c}
+.usual-chip.editing span{color:#ae382c}
+
+/* Progress */
+.progress{margin:18px 0 2px}
+.progress-text{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+.progress-bar{height:8px;border-radius:8px;background:#e3ebe2;overflow:hidden}
+.progress-bar i{display:block;height:100%;background:var(--green);border-radius:8px;transition:width .3s}
+
+/* Item rows: tap anywhere to tick, one menu button for everything else */
+.g-item{display:flex;align-items:center;gap:12px;min-height:62px;background:#fff;border:1px solid #edf0eb;border-radius:14px;margin:8px 0;padding:8px 4px 8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.g-item:active{background:#f4f8f3}
+.g-item .check-box{width:28px;height:28px;border-radius:9px;flex:none}
+.g-item .check-box:checked:after{width:100%;height:100%;font-size:18px}
+.g-main{flex:1;min-width:0}
+.g-item .item-name{font-size:16px;overflow-wrap:anywhere}
+.g-item .item-details{font-size:12px}
+.g-item .item-price{flex:none}
+.more-btn{flex:none;width:46px;height:46px;border:0;border-radius:12px;background:transparent;font-size:22px;color:#6b7d72}
+.more-btn:hover{background:#f2f5f1}
+.g-item.is-bought{opacity:.6}
+.all-done{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;background:#e7f1e8;border-radius:16px;padding:20px;margin:16px 0}
+
+/* Sticky total bar */
+.total-bar{position:sticky;bottom:84px;z-index:2;display:flex;justify-content:space-between;align-items:center;background:var(--deep);color:#fff;border-radius:16px;padding:13px 18px;margin-top:14px;box-shadow:0 8px 24px #104b3b44}
+.total-bar[hidden]{display:none}
+.total-bar small{display:block;font-size:11px;opacity:.75}
+.total-bar strong{font:800 20px Manrope,sans-serif}
+.total-bar .left{text-align:right}
+.total-bar.over .left strong{color:#ffb4aa}
+
+/* Bottom sheet for item options */
+.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:560px;border-radius:22px 22px 0 0;background:#fff;color:var(--text)}
+.sheet::backdrop{background:#16382b75}
+.sheet-in{padding:18px 18px 22px}
+.sheet h3{font:800 19px Manrope,sans-serif;margin:0}
+.sheet p{margin:3px 0 10px;color:var(--muted);font-size:13px}
+.sheet-btn{display:flex;align-items:center;gap:12px;width:100%;min-height:54px;border:0;border-bottom:1px solid var(--line);background:#fff;text-align:left;font-size:15px;color:var(--text);padding:0 4px}
+.sheet-btn.danger-text{color:#ae382c}
+.sheet-btn.center{justify-content:center;border:0;font-weight:700;color:var(--green)}
+.sheet-move{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;border-bottom:1px solid var(--line);font-size:15px}
+.sheet-move select{min-height:42px;border:1px solid #dfe7df;border-radius:10px;padding:6px 10px;background:#fff;font-size:14px;color:var(--text)}
+
+/* Group banner */
+.group-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#e7f1e8;border:1px solid #dce9dd;border-radius:16px;padding:12px 14px;margin-bottom:6px}
+.group-banner div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.group-banner strong{font:700 15px Manrope,sans-serif}
+.group-banner span{font-size:12px;color:var(--muted)}
+.group-banner code{color:var(--green);font-weight:700;letter-spacing:.5px}
+.group-banner .button{flex:none;min-height:44px}
+
+/* Undo toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:10;display:flex;align-items:center;gap:16px;background:#17352d;color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;box-shadow:0 10px 30px #0004;max-width:calc(100vw - 28px)}
+.toast[hidden]{display:none}
+.toast button{border:0;background:transparent;color:#9fe3c4;font-weight:700;font-size:14px;min-height:36px;padding:0 6px}
+#auth-form [hidden]{display:none!important}
