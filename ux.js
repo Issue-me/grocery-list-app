@@ -110,6 +110,7 @@ window.showPage=name=>{
   document.querySelector('#voice-button').hidden=name!=='home';
   nav.hidden=name==='welcome';
   nav.querySelectorAll('.nav-link').forEach(b=>{const on=b.dataset.page===TAB[name];b.classList.toggle('selected',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  localStorage.setItem('fiji-last-page',name);
   window.scrollTo(0,0);
 };
 showPage(document.querySelector('.page.active').id.replace('page-',''));
@@ -325,6 +326,34 @@ tp.onclick=e=>{const v=e.target.closest('[data-theme-set]')?.dataset.themeSet;if
 themeBtn.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 mq.addEventListener('change',()=>{if(themePref()==='auto')applyTheme()});
 applyTheme();renderThemePanel();
+
+/* ---------- Stay signed in, and keep working offline ---------- */
+// Supabase keeps the session in localStorage. If it cannot be read over the network
+// (offline, or the SDK failed to load) fall back to the saved session instead of "signed out".
+function storedSession(){
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);
+    if(/^sb-.+-auth-token$/.test(k)){const s=JSON.parse(localStorage.getItem(k)||'null');if(s?.user)return s}}}catch{}
+  return null;
+}
+const origPaint=paintAuth;
+window.paintAuth=user=>{
+  const u=user||storedSession()?.user||null;
+  const guest=localStorage.getItem('fiji-guest')==='1';
+  if(u)localStorage.removeItem('fiji-guest');
+  origPaint(u,false);                       // never send a signed-in user to the landing page
+  const last=localStorage.getItem('fiji-last-page');
+  if((u||guest)&&last&&last!=='welcome'&&document.querySelector('#page-'+last))showPage(last);
+  else if(!u&&guest)showPage('home');
+};
+document.querySelector('.landing-actions [data-goto="home"]')?.addEventListener('click',()=>localStorage.setItem('fiji-guest','1'));
+const origErr=authErrorText;
+window.authErrorText=e=>(!navigator.onLine||/fetch|network|connection|failed to/i.test(String(e?.message||'')))
+  ?"You're offline. Connect to the internet to sign in. If you were already signed in, you stay signed in."
+  :origErr(e);
+const origLoad=loadHouseholds;
+window.loadHouseholds=()=>navigator.onLine?origLoad():Promise.resolve();
+window.addEventListener('online',()=>{if(signedInUser)loadHouseholds()});
+if(!authClient)window.paintAuth(null);      // Supabase SDK not available (offline first load)
 
 renderAll();
 })();
