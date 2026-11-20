@@ -131,3 +131,12 @@ img,svg{max-width:100%}
   .bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:min(480px,calc(100% - 24px));bottom:14px;height:66px;padding:4px 10px;border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 30px #16382b1f}
   .toast{bottom:100px}
 }
+
+/* Show / hide password */
+.pw-wrap{position:relative;display:block;width:100%}
+.pw-wrap input{padding-right:72px!important}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);min-height:38px;padding:0 12px;border:0;border-radius:9px;background:#f1f5f0;color:var(--green);font-weight:700;font-size:13px}
+.pw-toggle:hover{background:var(--mint)}
+
+/* Auth dialog on small screens: never wider than the screen */
+#auth-dialog .dialog-card,#password-reset-dialog .dialog-card{width:min(440px,calc(100vw - 24px));margin:0 auto}

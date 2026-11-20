@@ -118,5 +118,29 @@ window.deleteListItem=function(id){
   toast(`Deleted ${item.name}`,()=>{data.items.push({...item,updatedAt:Date.now()});save()});
 };
 
+/* ---------- Show / hide password ---------- */
+['#auth-password','#new-password','#new-password-confirm'].forEach(sel=>{
+  const input=document.querySelector(sel);if(!input)return;
+  const wrap=document.createElement('span');wrap.className='pw-wrap';
+  input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);
+  const btn=document.createElement('button');
+  btn.type='button';btn.className='pw-toggle';btn.textContent='Show';
+  btn.setAttribute('aria-label','Show password');btn.setAttribute('aria-pressed','false');
+  btn.onclick=e=>{
+    e.preventDefault();
+    const show=input.type==='password';
+    input.type=show?'text':'password';
+    btn.textContent=show?'Hide':'Show';
+    btn.setAttribute('aria-label',show?'Hide password':'Show password');
+    btn.setAttribute('aria-pressed',String(show));
+  };
+  wrap.appendChild(btn);
+});
+// Always go back to hidden when a dialog closes
+document.querySelectorAll('#auth-dialog,#password-reset-dialog').forEach(d=>d.addEventListener('close',()=>{
+  d.querySelectorAll('.pw-wrap input').forEach(i=>{i.type='password'});
+  d.querySelectorAll('.pw-toggle').forEach(b=>{b.textContent='Show';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Show password')});
+}));
+
 renderAll();
 })();
