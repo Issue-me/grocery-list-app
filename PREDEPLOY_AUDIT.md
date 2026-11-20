@@ -6,7 +6,7 @@ Audit date: 20 November 2026
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Account creation and sign-in | Implemented; Supabase setup required | New users see account creation first. Returning signed-in users go straight to the 6 digit PIN pad. **Forgot PIN?** sends a recovery email. Accounts created before PIN sign-in changed may need to reset once to save the new PIN credential. |
+| Account creation and sign-in | Implemented; Supabase setup required | Users create accounts with a name, email, and password. Sign-in uses email and password. **Forgot password?** sends a recovery email. Old PIN accounts need a password reset before they can sign in. |
 | Shopping list | Implemented; live setup required | Quick add, suggestions, usual items, edit, move, delete, bought status, price and discounts, totals, repeat last trip, share text, and voice entry. ?Already have? items are left out of the estimated total. |
 | Categories and aisles | Implemented | Items are grouped in store order and can be moved. |
 | Store price comparison | Removed at your request | The store comparison and price entry screens are removed. Item prices and discounts remain available in the shopping list. |
@@ -24,7 +24,7 @@ Audit date: 20 November 2026
 - Household pantry, budget, and history snapshots are visible only to members of that household.
 - The current app does not read or write store comparison prices. Old price tables and admin functions remain in the database schema but are not exposed by the app.
 - Account deletion uses an Edge Function that checks the caller's token before using the server-only admin key.
-- The UI requires 6 digits. The app turns the email and PIN into a long credential before calling Supabase Auth. It checks PINs with Supabase while online and stores a salted local PIN check for offline unlock. The PIN is still only 6 digits and is easier to guess than a strong password, so keep email verification and Auth rate limits enabled.
+- Supabase Auth checks email and password. The app does not store the password. Keep email verification and Auth rate limits enabled.
 - A Content Security Policy restricts loaded resources. User text is escaped before rendering as HTML; auth messages use text content.
 
 These are code-level checks. I cannot confirm the live Supabase project's settings, schema, email settings, secrets, or deployed Edge Function from this workspace.
@@ -38,9 +38,9 @@ These are code-level checks. I cannot confirm the live Supabase project's settin
 ## Setup before public use
 
 1. Run the latest `supabase/schema.sql` in the target Supabase project.
-2. Keep Supabase Auth password rules and rate limits enabled. The app sends a generated long credential, not the raw PIN. A 6 digit PIN is still easier to guess than a strong password.
+2. Keep Supabase Auth password rules and rate limits enabled. The app uses Supabase email and password sign-in.
 3. Enable email confirmation and allow the deployed redirect path in Supabase Auth, including the password recovery redirect.
 4. Deploy `supabase/functions/delete-account` and set `APP_ORIGIN` to the site origin.
-6. Test registration, the full-screen PIN lock, offline PIN unlock, and PIN recovery, household switching, two-account live sync, offline edits, item prices and discounts, and account deletion on the deployed HTTPS site.
+6. Test registration, password sign-in, password recovery, household switching, two-account live sync, offline edits, item prices and discounts, and account deletion on the deployed HTTPS site.
 
 GitHub Pages serves the frontend only. Supabase schema and Edge Function setup happen separately. Meals remain removed.

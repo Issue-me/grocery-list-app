@@ -11,7 +11,7 @@ create extension if not exists pgcrypto;
 -- 2. TABLES
 -- ============================================================
 
--- User profiles. PINs are never stored in this table. Supabase Auth stores only its password hash.
+-- User profiles
 create table if not exists public.users (
     id uuid primary key references auth.users(id) on delete cascade,
     name text,
